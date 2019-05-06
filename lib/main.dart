@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -47,7 +49,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
+  String _batteryPercentage = 'Battery percentage';
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -87,6 +89,18 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Text(_batteryPercentage),
+                MaterialButton(
+                  onPressed: _getBatteryInformation,
+                  color: Colors.blueAccent,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      'Click me',
+                      style: TextStyle(color: Colors.white, fontSize: 35),
+                    ),
+                  ),
+                ),
                 Text(
                   'You have pushed the button this many times:',
                 ),
@@ -107,5 +121,20 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  static const batteryChannel = const MethodChannel('battery');
+  Future<void> _getBatteryInformation() async {
+    String batteryPercentage;
+    try {
+      var res = await batteryChannel.invokeMethod('getBatteryLevel');
+      batteryPercentage = 'Battery level at $res%';
+    } on PlatformException catch (e) {
+      batteryPercentage = "Failed to get battery level: '${e.message}'.";
+    }
+
+    setState(() {
+      _batteryPercentage = batteryPercentage;
+    });
   }
 }

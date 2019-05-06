@@ -30,11 +30,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter_icons:
-  image_path: 'assets/images/icon.png'
-  # image_path_android: 'assets/images/icon-710x599-android.png'
-  # image_path_ios: 'assets/images/icon-710x599-ios.png'
   android: true
   ios: true
+  # image_path: 'assets/images/icon.png'
+  image_path_ios: 'assets/images/icon_ios.png'
+  image_path_android: 'assets/images/icon.png'
   # adaptive_icon_background: 'assets/images/christmas-background.png' # only available for Android 8.0 devices and above
   # adaptive_icon_foreground: 'assets/images/icon-foreground-432x432.png' # only available for Android 8.0 devices and above
 
