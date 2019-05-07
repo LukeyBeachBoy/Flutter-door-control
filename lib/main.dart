@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -48,6 +49,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  MyHomePage myHomePage;
+  void initState() {
+    super.initState();
+    if (SchedulerBinding.instance.schedulerPhase ==
+        SchedulerPhase.persistentCallbacks) {
+      SchedulerBinding.instance.addPostFrameCallback((_) => _getTouchID());
+    }
+  }
+
   int _counter = 0;
   String _batteryPercentage = 'Battery percentage';
   void _incrementCounter() {
@@ -121,6 +131,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  static const authChannel = const MethodChannel('auth');
+  Future<void> _getTouchID() async {
+    try {
+      var res = await authChannel.invokeMethod('getTouchID');
+    } on PlatformException catch (e) {
+      print('Error with touch id');
+    }
   }
 
   static const batteryChannel = const MethodChannel('battery');
