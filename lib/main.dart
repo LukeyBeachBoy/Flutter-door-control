@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'My App!',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -50,15 +50,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   MyHomePage myHomePage;
-  void initState() {
-    super.initState();
-    if (SchedulerBinding.instance.schedulerPhase ==
-        SchedulerPhase.persistentCallbacks) {
-      SchedulerBinding.instance.addPostFrameCallback((_) => _getTouchID());
-    }
-  }
 
   int _counter = 0;
+  String mqttStatus = 'Not connected';
   String _batteryPercentage = 'Battery percentage';
   void _incrementCounter() {
     setState(() {
@@ -99,6 +93,18 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Text(mqttStatus),
+                MaterialButton(
+                  onPressed: connect,
+                  color: Colors.blueAccent,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      'Click me',
+                      style: TextStyle(color: Colors.white, fontSize: 35),
+                    ),
+                  ),
+                ),
                 Text(_batteryPercentage),
                 MaterialButton(
                   onPressed: _getBatteryInformation,
@@ -133,12 +139,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  static const authChannel = const MethodChannel('auth');
-  Future<void> _getTouchID() async {
+  static const mqttChannel = const MethodChannel('mqtt');
+  Future<void> connect() async {
     try {
-      var res = await authChannel.invokeMethod('getTouchID');
+      var res = await mqttChannel.invokeMethod('connect');
     } on PlatformException catch (e) {
-      print('Error with touch id');
+      print('Error connecting');
     }
   }
 
