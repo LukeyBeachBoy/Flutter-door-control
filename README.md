@@ -1,16 +1,6 @@
-# my_app
+# Flutter Door Control (WIP)
 
-A new Flutter project.
+A cross-platform app for interacting with an MQTT device
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Functionality
+- Using web sockets and MQTT, send 'lock' and 'unlock' commands to a Mbed K64-F microcontroller in order to move a servo attached to the lock on my bedroom door. Currently on hold due to moving house as uni has finished, however I did get this working with a simple webserver and HTML page (https://drive.google.com/open?id=1B7rv9F7gnNllrKlZ0lMVs8UnPkS7e9UR)
